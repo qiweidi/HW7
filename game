@@ -1,0 +1,98 @@
+var playerup = 260;
+var bullets = [];
+var upbullets = [];
+var downpl;
+var uppl;
+
+
+ function preload() {
+  soundFormats('mp3', 'ogg');
+  mySound = loadSound('gunshot.wav');
+  winSound = loadSound('win.wav');
+} 
+
+
+
+function setup() {
+  createCanvas(600, 400);
+  bullet = new Bullet(width / 2, height / 2);
+  upbullet = new Upbullet(width / 2, height / 2);
+  downpl = new Downpl();
+  uppl = new Uppl();
+
+}
+
+function draw() {
+  background(22);
+  downpl.show();
+  uppl.show();
+  
+  line(0, height / 2, width, height / 2);
+  fill(255);   // center line 
+
+
+
+  fill(255, 0, 0);
+
+  for (var i = 0; i < bullets.length; i++) {
+    bullets[i].show();
+    bullets[i].move();
+    if (bullets[i].hits(uppl)) {
+      textSize(20);
+      fill(255);  
+    text('Player Down Wins!!!!', 200, 200);
+    noLoop();
+      winSound.play();
+      
+    console.log("cyka blyat")   
+  }
+
+  }
+
+  for (var j = 0; j < upbullets.length; j++) {
+    upbullets[j].show();
+    upbullets[j].move();
+    if (upbullets[j].hits(downpl)) {
+      textSize(20);  
+      fill(255);  
+    text('Player Up Wins!!!!', 200, 200);
+    noLoop();
+       winSound.play();
+      
+    console.log("cyka blyat")   
+  }
+  }
+
+ stroke(255);
+
+  if (keyIsDown(65)) {
+    uppl.move(-1);
+  }
+  if (keyIsDown(68)) {
+    uppl.move(1);
+  }
+  if (keyIsDown(37)) {
+    downpl.move(-1);
+  }
+  if (keyIsDown(39)) {
+    downpl.move(1);
+  }
+
+
+  
+
+  }
+
+  function keyPressed() {
+    if (key === '/') {
+      var bullet = new Bullet(downpl.x + 30, height);
+      bullets.push(bullet);
+      mySound.play();
+    }
+    if (key === 'f') {
+      var upbullet = new Upbullet(uppl.x + 30, 0);
+      upbullets.push(upbullet);
+      mySound.play();
+    }
+
+  }     
